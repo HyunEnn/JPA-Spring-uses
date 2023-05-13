@@ -19,6 +19,9 @@ public class MemberRepository {
         em.persist(member);
     }
 
+    public Member findNickname(String nickname) {
+        return em.find(Member.class, nickname);
+    }
     public Member findOne(Long id) {
         return em.find(Member.class, id);
     }

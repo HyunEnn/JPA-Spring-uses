@@ -5,6 +5,8 @@ import jpabook.jpashop.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,11 +32,12 @@ public class MemberApiController {
                 .map(m -> new MemberDTO(m.getName()))
                 .collect(Collectors.toList());
 
-        return new Result(collect);
+        return new Result(collect.size(), collect);
     }
     @Data
     @AllArgsConstructor
     static class Result<T> {
+        private int count;
         private T data;
     }
     @Data
@@ -68,6 +71,12 @@ public class MemberApiController {
         memberService.update(id, request.getName());
         Member findMember = memberService.findOne(id);
         return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+    }
+
+    @GetMapping("/api/v1/members/{id}")
+    public ResponseEntity<Member> memberv2(@PathVariable("id") Long id) {
+        Member member = memberService.findOne(id);
+        return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
     @Data

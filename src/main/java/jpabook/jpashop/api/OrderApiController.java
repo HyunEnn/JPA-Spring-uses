@@ -64,7 +64,7 @@ public class OrderApiController {
                 .map(o -> new OrderDto(o))// order에 대한 정보들을 orderDTO에 넘겨줌
                 .collect(Collectors.toList());
         return collect;
-    }
+    }//
     @Getter
     static class OrderDto {
 
